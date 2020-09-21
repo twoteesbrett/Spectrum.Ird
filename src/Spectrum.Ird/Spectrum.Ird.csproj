@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>twoteesbrett/Spectrum</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>ird new-zealand nz-bank-account validation validator</PackageTags>
+    <Description>A library to validate bank account numbers according to the "Resident Withholding Tax (RWT) and Non-Resident Withholding Tax (NRWT)" specification published by the New Zealand Inland Revenue Department (IRD).</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageProjectUrl>https://github.com/twoteesbrett/Spectrum.Ird</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/twoteesbrett/Spectrum.Ird</RepositoryUrl>
+    <Company>twoteesbrett/Spectrum</Company>
+    <Version>2.0.0</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\Users\brett\source\repos\twoteesbrett\Spectrum.Ird\src\Spectrum.Ird\Spectrum.Ird.xml</DocumentationFile>
+  </PropertyGroup>
+
+</Project>
