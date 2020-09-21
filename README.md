@@ -28,7 +28,6 @@ var accountBase = 68389;
 var suffix = 0;
 
 var account = new NZBankAccount(bank, branch, accountBase, suffix);
-
 var isValid = account.IsValid();
 ```
 
@@ -36,15 +35,10 @@ var isValid = account.IsValid();
 
 An instance can also be created by parsing a `string` value in the format `XX-XXXX-XXXXXXX-XX(X)` where `X` is a digit and the suffix can be either 2 or 3 digits. Hyphens, spaces or periods can be used as separators. If the value cannot be parsed, `null` is returned.
 
-Parsing an account number does not validate it.
+Parsing an account number does not validate it. Once an instance has been created, it can then be validated.
 
 ```csharp
 var account = NZBankAccount.Parse("01-0902-0068389-00");
-```
-
-Once an instance has been created, it can then be validated:
-
-```csharp
 var isValid = account?.IsValid() ?? false;
 ```
 
@@ -62,10 +56,10 @@ After an account number has been instantiated, the `ToString()` method can be ca
 
 ```csharp
 // arrange
-var validator = new NZBankAccount(1, 902, 68389, 0);
+var account = new NZBankAccount(1, 902, 68389, 0);
 
 // act
-var result = validator.ToString();
+var result = account.ToString();
 
 // assert
 Assert.AreEqual("01-0902-0068389-00", result);
