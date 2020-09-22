@@ -1,3 +1,8 @@
+![Azure DevOps builds](https://img.shields.io/azure-devops/build/twoteesbrett/dd494a5e-71a9-497f-9e0a-717d34eae722/2)
+![Azure DevOps builds](https://img.shields.io/azure-devops/tests/twoteesbrett/dd494a5e-71a9-497f-9e0a-717d34eae722/2)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![NuGet Badge](https://buildstats.info/nuget/Spectrum.Ird)](https://www.nuget.org/packages/Spectrum.Ird)
+
 # New Zealand Bank Account Validation
 
 A library to validate bank account numbers according to the "Resident Withholding Tax (RWT) and Non-Resident Withholding Tax (NRWT)" specification published by the New Zealand Inland Revenue Department (IRD).
