@@ -11,7 +11,7 @@ namespace Spectrum.Ird
         { 
             var values = value
                 .ToCharArray()
-                .Select(v => v == 'A' ? 10 : Convert.ToInt32(char.GetNumericValue(v)))
+                .Select(v => Convert.ToInt32(char.GetNumericValue(v)))
                 .ToArray();
 
             if (values.Any(v => v < 0))
@@ -21,10 +21,5 @@ namespace Spectrum.Ird
 
             return values;
         }
-
-        internal static int SumDigits(this string value)
-            => value
-                .ToNumericValues()
-                .Sum();
     }
 }

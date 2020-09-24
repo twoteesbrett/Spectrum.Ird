@@ -10,10 +10,10 @@ namespace Spectrum.Ird.Tests
         public void IsValid_Example1_ReturnsTrue()
         {
             // arrange
-            var validator = new NZBankAccount(1, 902, 68389, 0);
+            var account = new NZBankAccount(1, 902, 68389, 0);
 
             // act
-            var result = validator.IsValid();
+            var result = account.IsValid();
 
             // assert
             Assert.IsTrue(result);
@@ -23,10 +23,10 @@ namespace Spectrum.Ird.Tests
         public void ToString_Example1_ReturnsFormattedAccountNumber()
         {
             // arrange
-            var validator = new NZBankAccount(1, 902, 68389, 0);
+            var account = new NZBankAccount(1, 902, 68389, 0);
 
             // act
-            var result = validator.ToString();
+            var result = account.ToString();
 
             // assert
             Assert.AreEqual("01-0902-0068389-00", result);
@@ -36,10 +36,10 @@ namespace Spectrum.Ird.Tests
         public void IsValid_Example2_ReturnsTrue()
         {
             // arrange
-            var validator = new NZBankAccount(8, 6523, 1954512, 1);
+            var account = new NZBankAccount(8, 6523, 1954512, 1);
 
             // act
-            var result = validator.IsValid();
+            var result = account.IsValid();
 
             // assert
             Assert.IsTrue(result);
@@ -49,10 +49,10 @@ namespace Spectrum.Ird.Tests
         public void ToString_Example2_ReturnsFormattedAccountNumber()
         {
             // arrange
-            var validator = new NZBankAccount(8, 6523, 1954512, 1);
+            var account = new NZBankAccount(8, 6523, 1954512, 1);
 
             // act
-            var result = validator.ToString();
+            var result = account.ToString();
 
             // assert
             Assert.AreEqual("08-6523-1954512-01", result);
@@ -62,10 +62,10 @@ namespace Spectrum.Ird.Tests
         public void IsValid_Example3_ReturnsTrue()
         {
             // arrange
-            var validator = new NZBankAccount(26, 2600, 320871, 32);
+            var account = new NZBankAccount(26, 2600, 320871, 32);
 
             // act
-            var result = validator.IsValid();
+            var result = account.IsValid();
 
             // assert
             Assert.IsTrue(result);
@@ -75,10 +75,10 @@ namespace Spectrum.Ird.Tests
         public void ToString_Example3_ReturnsFormattedAccountNumber()
         {
             // arrange
-            var validator = new NZBankAccount(26, 2600, 320871, 32);
+            var account = new NZBankAccount(26, 2600, 320871, 32);
 
             // act
-            var result = validator.ToString();
+            var result = account.ToString();
 
             // assert
             Assert.AreEqual("26-2600-0320871-32", result);
@@ -88,10 +88,10 @@ namespace Spectrum.Ird.Tests
         public void IsValid_BankAccountWithZeroes_ReturnsFalse()
         {
             // arrange
-            var validator = new NZBankAccount(0, 0, 0, 0);
+            var account = new NZBankAccount(0, 0, 0, 0);
 
             // act
-            var result = validator.IsValid();
+            var result = account.IsValid();
 
             // assert
             Assert.IsFalse(result);
@@ -101,10 +101,10 @@ namespace Spectrum.Ird.Tests
         public void IsValid_BankTooLong_ReturnsFalse()
         {
             // arrange
-            var validator = new NZBankAccount(999, 0, 0, 0);
+            var account = new NZBankAccount(999, 0, 0, 0);
 
             // act
-            var result = validator.IsValid();
+            var result = account.IsValid();
 
             // assert
             Assert.IsFalse(result);
@@ -114,10 +114,10 @@ namespace Spectrum.Ird.Tests
         public void IsValid_BranchTooLong_ReturnsFalse()
         {
             // arrange
-            var validator = new NZBankAccount(99999, 0, 0, 0);
+            var account = new NZBankAccount(99999, 0, 0, 0);
 
             // act
-            var result = validator.IsValid();
+            var result = account.IsValid();
 
             // assert
             Assert.IsFalse(result);
@@ -127,10 +127,10 @@ namespace Spectrum.Ird.Tests
         public void IsValid_AccountBaseTooLong_ReturnsFalse()
         {
             // arrange
-            var validator = new NZBankAccount(999_999_999, 0, 0, 0);
+            var account = new NZBankAccount(999_999_999, 0, 0, 0);
 
             // act
-            var result = validator.IsValid();
+            var result = account.IsValid();
 
             // assert
             Assert.IsFalse(result);
@@ -140,10 +140,10 @@ namespace Spectrum.Ird.Tests
         public void IsValid_SuffixTooLong_ReturnsFalse()
         {
             // arrange
-            var validator = new NZBankAccount(0, 0, 0, 99999);
+            var account = new NZBankAccount(0, 0, 0, 99999);
 
             // act
-            var result = validator.IsValid();
+            var result = account.IsValid();
 
             // assert
             Assert.IsFalse(result);
@@ -153,10 +153,10 @@ namespace Spectrum.Ird.Tests
         public void IsValid_InvalidBank_ReturnsFalse()
         {
             // arrange
-            var validator = new NZBankAccount(99, 0, 0, 0);
+            var account = new NZBankAccount(99, 0, 0, 0);
 
             // act
-            var result = validator.IsValid();
+            var result = account.IsValid();
 
             // assert
             Assert.IsFalse(result);
@@ -166,10 +166,10 @@ namespace Spectrum.Ird.Tests
         public void IsValid_InvalidBranch_ReturnsFalse()
         {
             // arrange
-            var validator = new NZBankAccount(1, 9999, 0, 0);
+            var account = new NZBankAccount(1, 9999, 0, 0);
 
             // act
-            var result = validator.IsValid();
+            var result = account.IsValid();
 
             // assert
             Assert.IsFalse(result);
@@ -179,10 +179,10 @@ namespace Spectrum.Ird.Tests
         public void Parse_WellFormedWithSpaces_CreatesInstance()
         {
             // arrange
-            var validator = NZBankAccount.Parse("01 0902 0068389 00");
+            var account = NZBankAccount.Parse("01 0902 0068389 00");
 
             // act
-            var result = validator.IsValid();
+            var result = account.IsValid();
 
             // assert
             Assert.IsTrue(result);
@@ -192,10 +192,10 @@ namespace Spectrum.Ird.Tests
         public void Parse_WellFormedWithHyphens_CreatesInstance()
         {
             // arrange
-            var validator = NZBankAccount.Parse("01-0902-0068389-00");
+            var account = NZBankAccount.Parse("01-0902-0068389-00");
 
             // act
-            var result = validator.IsValid();
+            var result = account.IsValid();
 
             // assert
             Assert.IsTrue(result);
@@ -205,10 +205,10 @@ namespace Spectrum.Ird.Tests
         public void Parse_WellFormedWithDots_CreatesInstance()
         {
             // arrange
-            var validator = NZBankAccount.Parse("01.0902.0068389.00");
+            var account = NZBankAccount.Parse("01.0902.0068389.00");
 
             // act
-            var result = validator.IsValid();
+            var result = account.IsValid();
 
             // assert
             Assert.IsTrue(result);
@@ -218,10 +218,10 @@ namespace Spectrum.Ird.Tests
         public void Parse_WellFormedWithThreeDigitSuffix_CreatesInstance()
         {
             // arrange
-            var validator = NZBankAccount.Parse("01-0902-0068389-000");
+            var account = NZBankAccount.Parse("01-0902-0068389-000");
 
             // act
-            var result = validator.IsValid();
+            var result = account.IsValid();
 
             // assert
             Assert.IsTrue(result);
@@ -325,10 +325,10 @@ namespace Spectrum.Ird.Tests
         public void TryParse_WellFormedAccountNumberInvalid_ReturnsFalse()
         {
             // arrange
-            var isParsed = NZBankAccount.TryParse("00-0000-0000000-00", out NZBankAccount validator);
+            var isParsed = NZBankAccount.TryParse("00-0000-0000000-00", out NZBankAccount account);
 
             // act
-            var isValid = validator.IsValid();
+            var isValid = account.IsValid();
 
             // assert
             Assert.IsTrue(isParsed);
