@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Spectrum.Ird
@@ -80,6 +81,20 @@ namespace Spectrum.Ird
 
             return false;
         }
+
+        /// <summary>
+        /// Indicates whether the specified IRD number is valid.
+        /// </summary>
+        /// <param name="irdNumber"></param>
+        /// <returns><see langword="true"/> if the IRD number is valid, otherwise <see langword="false"/>.</returns>
+        /// <example>
+        /// The following example validates the specified IRD number using the static method <see cref="IsValid(long)"/>.
+        /// <code>
+        /// var isValid = IrdNumber.IsValid(49091850);
+        /// </code>
+        /// </example>
+        public static bool IsValid(long irdNumber)
+            => new IrdNumber(irdNumber).IsValid();
 
         private int GetCheckDigit(int[] baseNumber, int[] weightings)
         {
