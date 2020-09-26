@@ -25,7 +25,7 @@ using Spectrum.Ird;
 
 ## IRD Number
 ### Validation
-Create an instance of the `IRDNumber` with an IRD Number expressed as a `long` data type. Call the `IsValid()` method to validate it.
+Create an instance of the `IRDNumber` class with an IRD Number expressed as a `long` data type. Call the `IsValid()` method to validate it.
 
 ```csharp
 var irdNumber = new IrdNumber(49091850);
@@ -96,7 +96,7 @@ var isValid = NZBankAccount.IsValid(bank, branch, accountBase, suffix);
 
 ## Acknowledgements
 * https://github.com/msdkool/IrdValidator
-* https://github.com/wytlytningNZ/NZ-Bank-Account-Validator#readme
+* https://github.com/wytlytningNZ/NZ-Bank-Account-Validator
 
 ## Release Notes
 #### 2.1.0
