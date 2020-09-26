@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>twoteesbrett/Spectrum</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageTags>ird new-zealand nz-bank-account validation validator</PackageTags>
+    <PackageTags>bank-account ird ird-number new-zealand nz nz-bank-account validation validator</PackageTags>
     <Description>A library to validate bank account numbers according to the "Resident Withholding Tax (RWT) and Non-Resident Withholding Tax (NRWT)" specification published by the New Zealand Inland Revenue Department (IRD).</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

@@ -20,6 +20,22 @@ namespace Spectrum.Ird.Tests
         }
 
         [TestMethod]
+        public void StaticIsValid_Example1_ReturnsTrue()
+        {
+            // arrange
+            var bank = 1;
+            var branch = 902;
+            var accountBase = 68389;
+            var suffix = 0;
+
+            // act
+            var result = NZBankAccount.IsValid(bank, branch, accountBase, suffix);
+
+            // assert
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
         public void ToString_Example1_ReturnsFormattedAccountNumber()
         {
             // arrange
@@ -92,6 +108,22 @@ namespace Spectrum.Ird.Tests
 
             // act
             var result = account.IsValid();
+
+            // assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void StaticIsValid_BankAccountWithZeroes_ReturnsFalse()
+        {
+            // arrange
+            var bank = 0;
+            var branch = 0;
+            var accountBase = 0;
+            var suffix = 0;
+
+            // act
+            var result = NZBankAccount.IsValid(bank, branch, accountBase, suffix);
 
             // assert
             Assert.IsFalse(result);

@@ -22,6 +22,19 @@ namespace Spectrum.Ird.Tests
         }
 
         [TestMethod]
+        public void StaticIsValid_Example1_ReturnsTrue()
+        {
+            // arrange
+            var irdNumber = 49091850;
+
+            // act
+            var result = IrdNumber.IsValid(irdNumber);
+
+            // assert
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
         public void IsValid_Example2_ReturnsTrue()
         {
             // arrange
@@ -68,6 +81,19 @@ namespace Spectrum.Ird.Tests
 
             // act
             var result = irdNumber.IsValid();
+
+            // assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void StaticIsValid_Example5_ReturnsFalse()
+        {
+            // arrange
+            var irdNumber = 136410133;
+
+            // act
+            var result = IrdNumber.IsValid(irdNumber);
 
             // assert
             Assert.IsFalse(result);
