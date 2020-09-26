@@ -24,37 +24,27 @@ namespace Spectrum.Ird
     {
         private static readonly Regex AccountNumberRegex = new Regex(@"^(\d{2})[ -\.](\d{4})[ -\.](\d{7})[ -\.](\d{2,3})$");
 
-        private readonly string _accountNumber;
+        private readonly int[] _accountNumber;
 
         /// <summary>
-        /// Gets the algorithm used to calculate the modulus.
+        /// Gets the bank ID of the instance.
         /// </summary>
-        public char Algorithm { get; }
+        public int Bank { get; }
 
         /// <summary>
-        /// Gets the bank ID of the instance, left-zero-padded to 2 digits.
+        /// Gets the bank branch of the instance.
         /// </summary>
-        public string Bank { get;  }
+        public int Branch { get; }
 
         /// <summary>
-        /// Gets the bank branch of the instance, left-zero-padded to 4 digits.
+        /// Gets the account base number of the instance.
         /// </summary>
-        public string Branch { get;  }
+        public int AccountBase { get; }
 
         /// <summary>
-        /// Gets the account base number of the instance, left-zero-padded to 8 digits.
+        /// Gets the account suffix of the instance.
         /// </summary>
-        public string AccountBase { get;  }
-
-        /// <summary>
-        /// Gets the account suffix of the instance, left-zero-padded to 4 digits.
-        /// </summary>
-        public string Suffix { get;  }
-
-        /// <summary>
-        /// Gets the modulus used for the validation.
-        /// </summary>
-        public int Modulo { get; }
+        public int Suffix { get; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="NZBankAccount"/> class
@@ -66,12 +56,12 @@ namespace Spectrum.Ird
         /// <param name="suffix">The account suffix.</param>
         public NZBankAccount(int bank, int branch, int accountBase, int suffix)
         {
-            Bank = bank.ToString().PadLeft(2, '0');
-            Branch = branch.ToString().PadLeft(4, '0');
-            AccountBase = accountBase.ToString().PadLeft(8, '0');
-            Suffix = suffix.ToString().PadLeft(4, '0');
+            Bank = bank;
+            Branch = branch;
+            AccountBase = accountBase;
+            Suffix = suffix;
 
-            _accountNumber = $"{Bank}{Branch}{AccountBase}{Suffix}";
+            _accountNumber = $"{bank:D2}{branch:D4}{accountBase:D8}{suffix:D4}".ToNumericValues();
         }
 
         /// <summary>
@@ -107,11 +97,11 @@ namespace Spectrum.Ird
         /// </summary>
         /// <param name="accountNumber">The string containing an account number to convert, in
         /// an accepted format.</param>
-        /// <param name="validator">When this method returns, a <see cref="NZBankAccount"/>
+        /// <param name="account">When this method returns, a <see cref="NZBankAccount"/>
         /// equivalent of the specified account number, if the conversion succeeded, or <see langword="null"/>
         /// if the conversion failed. The conversion fails if the account number is <see langword="null"/>,
         /// <see langword="Empty"/> or not one of the accepted formats. This parameter is passed uninitialized;
-        /// any value originally supplied in validator will be overwritten.
+        /// any value originally supplied in account will be overwritten.
         /// </param>
         /// <returns><see langword="true"/> if the conversion succeeded, otherwise <see langword="false"/>.</returns>
         /// <remarks>
@@ -128,16 +118,11 @@ namespace Spectrum.Ird
         /// respectively. The suffix can be either 2 or 3 digits.
         /// </para>
         /// </remarks>
-        public static bool TryParse(string accountNumber, out NZBankAccount validator)
+        public static bool TryParse(string accountNumber, out NZBankAccount account)
         {
-            validator = Initialise(accountNumber, false);
+            account = Initialise(accountNumber, false);
 
-            if (validator == null)
-            {
-                return false;
-            }
-
-            return true;
+            return account != null;
         }
 
         private static NZBankAccount Initialise(string accountNumber, bool throwException)
@@ -169,9 +154,9 @@ namespace Spectrum.Ird
             var accountBase = Convert.ToInt32(match.Groups[3].Value);
             var suffix = Convert.ToInt32(match.Groups[4].Value);
 
-            var validator = new NZBankAccount(bank, branch, accountBase, suffix);
+            var account = new NZBankAccount(bank, branch, accountBase, suffix);
 
-            return validator;
+            return account;
         }
 
         /// <summary>
@@ -190,13 +175,13 @@ namespace Spectrum.Ird
         /// var accountBase = 68389;
         /// var suffix = 0;
         ///
-        /// var isValid = NZBankAccountValidator.IsValid(bank, branch, accountBase, suffix);
+        /// var isValid = NZBankAccount.IsValid(bank, branch, accountBase, suffix);
         /// </code>
         /// </example>
         public static bool IsValid(int bank, int branch, int accountBase, int suffix)
         {
-            var validator = new NZBankAccount(bank, branch, accountBase, suffix);
-            var isValid = validator.IsValid();
+            var account = new NZBankAccount(bank, branch, accountBase, suffix);
+            var isValid = account.IsValid();
 
             return isValid;
         }
@@ -213,42 +198,39 @@ namespace Spectrum.Ird
         /// var accountBase = 68389;
         /// var suffix = 0;
         ///
-        /// var validator = new NZBankAccountValidator(bank, branch, accountBase, suffix);
-        ///
-        /// var isValid = validator.IsValid();
+        /// var account = new NZBankAccount(bank, branch, accountBase, suffix);
+        /// var isValid = account.IsValid();
         /// </code>
         /// </example>
         public bool IsValid()
         {
             // is the account number all zeroes?
-            if (_accountNumber.SumDigits() == 0)
+            if (_accountNumber.All(n => n == 0))
             {
                 return false;
             }
 
-            // are the lengths of each part correct?
-            if (Bank.Length > 2 ||
-                Branch.Length > 4 ||
-                AccountBase.Length > 8 ||
-                Suffix.Length > 4)
+            // are the lengths of each constituent correct?
+            if (Bank > 99 ||
+                Branch > 9999 ||
+                AccountBase > 99999999 ||
+                Suffix > 9999)
             {
                 return false;
             }
 
-            var bank = Convert.ToInt32(Bank);
             var banks = BranchRangeSets.Select(d => d.Bank).ToList();
 
             // is the bank valid?
-            if (!banks.Contains(bank))
+            if (!banks.Contains(Bank))
             {
                 return false;
             }
 
             // is the branch valid?
-            var branch = Convert.ToInt32(Branch);
-            var branches = BranchRangeSets.Where(d => d.Bank == bank).SelectMany(d => d.BranchRanges).ToList();
+            var branches = BranchRangeSets.Where(d => d.Bank == Bank).SelectMany(d => d.BranchRanges).ToList();
 
-            if (!branches.Any(b => branch >= b.Start && branch <= b.End))
+            if (!branches.Any(b => Branch >= b.Start && Branch <= b.End))
             {
                 return false;
             }
@@ -268,50 +250,49 @@ namespace Spectrum.Ird
         /// </summary>
         /// <returns>The formatted account number.</returns>
         public override string ToString()
-            => $"{Bank}-{Branch}-{AccountBase.Substring(1)}-{Suffix.Substring(2)}";
+            => $"{Bank:D2}-{Branch:D4}-{AccountBase:D7}-{Suffix:D2}";
 
         private bool IsCheckDigitValid()
         {
-            var weightings = GetWeightings().ToNumericValues();
-            var accountNumber = _accountNumber.ToNumericValues();
+            var weightings = GetWeightings();
 
             var products = 0;
 
             for (var i = 0; i < _accountNumber.Length; i++)
             {
-                products += accountNumber[i] * weightings[i];
+                products += _accountNumber[i] * weightings[i];
             }
 
             var modulo = GetModulo();
-            var result = products % modulo;
+            var remainder = products % modulo;
 
-            return result == 0;
+            return remainder == 0;
         }
 
-        private string GetWeightings()
+        private int[] GetWeightings()
         {
             switch (Bank)
             {
-                case "08":
-                    return "000000076543210000";
-                case "09":
-                    return "000000000054320001";
-                case "25":
-                case "33":
-                    return "000000017317310000";
-                case "26":
-                case "28":
-                case "29":
-                    return "000000013713710371";
-                case "31":
-                    return "000000000000000000";
+                case 8:
+                    return new[] { 0, 0, 0, 0, 0, 0, 0, 7, 6, 5, 4, 3, 2, 1, 0, 0, 0, 0 };
+                case 9:
+                    return new[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 4, 3, 2, 0, 0, 0, 1 };
+                case 25:
+                case 33:
+                    return new[] { 0, 0, 0, 0, 0, 0, 0, 1, 7, 3, 1, 7, 3, 1, 0, 0, 0, 0 };
+                case 26:
+                case 28:
+                case 29:
+                    return new[] { 0, 0, 0, 0, 0, 0, 0, 1, 3, 7, 1, 3, 7, 1, 0, 3, 7, 1 };
+                case 31:
+                    return new[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
                 default:
-                    if (Convert.ToInt32(AccountBase) < 990000)
+                    if (AccountBase < 990000)
                     {
-                        return "00637900A584210000";
+                        return new[] { 0, 0, 6, 3, 7, 9, 0, 0, 10, 5, 8, 4, 2, 1, 0, 0, 0, 0 };
                     }
 
-                    return "00000000A584210000";
+                    return new[] { 0, 0, 0, 0, 0, 0, 0, 0, 10, 5, 8, 4, 2, 1, 0, 0, 0, 0 };
             }
         }
 
@@ -319,13 +300,13 @@ namespace Spectrum.Ird
         {
             switch (Bank)
             {
-                case "25":
-                case "33":
-                case "26":
-                case "28":
-                case "29":
+                case 25:
+                case 33:
+                case 26:
+                case 28:
+                case 29:
                     return 10;
-                case "31":
+                case 31:
                     return 1;
                 default:
                     return 11;
