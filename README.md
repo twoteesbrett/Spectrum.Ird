@@ -3,9 +3,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![NuGet Badge](https://buildstats.info/nuget/Spectrum.Ird)](https://www.nuget.org/packages/Spectrum.Ird)
 
-# New Zealand Bank Account Validation
+# New Zealand IRD Number and Bank Account Validation
 
-A library to validate bank account numbers according to the "Resident Withholding Tax (RWT) and Non-Resident Withholding Tax (NRWT)" specification published by the New Zealand Inland Revenue Department (IRD).
+A library to validate IRD numbers and bank account numbers according to the "Resident Withholding Tax (RWT) and Non-Resident Withholding Tax (NRWT)" specification published by the New Zealand Inland Revenue Department (IRD).
 
 The specification used in this implementation is [here](https://www.ird.govt.nz/-/media/project/ir/documents/income-tax/withholding-taxes/rwt-nrwt-withholding-tax-certificate/2020-rwt-and-nrwt-certificate-filing-specification.pdf).
 
@@ -23,6 +23,23 @@ Import the namespace.
 using Spectrum.Ird;
 ```
 
+## IRD Number
+### Validation
+Create an instance of the `IRDNumber` with an IRD Number expressed as a `long` data type. Call the `IsValid()` method to validate it.
+
+```csharp
+var irdNumber = new IrdNumber(49091850);
+var result = irdNumber.IsValid();
+```
+
+### Static Validation
+A static method of validation is available.
+
+```csharp
+var isValid = IrdNumber.IsValid(49091850);
+```
+
+## Bank Account
 ### Validation
 Create an instance of the `NZBankAccount` with a bank account number in its constituent parts. That is, its bank, branch, account base and suffix. Call the `IsValid()` method to validate it.
 
@@ -77,7 +94,17 @@ A static method of validation is available.
 var isValid = NZBankAccount.IsValid(bank, branch, accountBase, suffix);
 ```
 
+## Acknowledgements
+* https://github.com/msdkool/IrdValidator
+* https://github.com/wytlytningNZ/NZ-Bank-Account-Validator#readme
+
 ## Release Notes
+#### 2.1.0
+2020-09-26
+* Added IRD Number validation.
+* Refactored `NZBankAccount` to use integer arrays.
+* Removed `Algorithm` and `Modulus` as these were never populated.
+
 #### 2.0.0
 2020-09-21
 * Changed the namespace from `Spectrum.IrdValidation` to `Spectrum.Ird`.
