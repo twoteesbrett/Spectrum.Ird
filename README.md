@@ -3,9 +3,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![NuGet Badge](https://buildstats.info/nuget/Spectrum.Ird)](https://www.nuget.org/packages/Spectrum.Ird)
 
-# New Zealand IRD Number and Bank Account Validation
+# New Zealand IRD Number and Bank Account Number Validation
 
-A library to validate IRD numbers and bank account numbers according to the "Resident Withholding Tax (RWT) and Non-Resident Withholding Tax (NRWT)" specification published by the New Zealand Inland Revenue Department (IRD).
+This is library to validate IRD numbers and New Zealand bank account numbers according to the "Resident Withholding Tax (RWT) and Non-Resident Withholding Tax (NRWT)" specification published by the New Zealand Inland Revenue Department (IRD).
 
 The specification used in this implementation is [here](https://www.ird.govt.nz/-/media/project/ir/documents/income-tax/withholding-taxes/rwt-nrwt-withholding-tax-certificate/2020-rwt-and-nrwt-certificate-filing-specification.pdf).
 
@@ -22,6 +22,20 @@ Import the namespace.
 ```csharp
 using Spectrum.Ird;
 ```
+
+## Quick Start
+To validate an IRD number:
+
+```csharp
+var isValid = 49091850.IsValidIrdNumber();
+```
+
+To validate a New Zealand bank account number:
+
+```csharp
+var isValid = "01-0902-0068389-00".IsValidNZBankAccount();
+```
+
 
 ## IRD Number
 ### Validation
@@ -64,7 +78,7 @@ var account = NZBankAccount.Parse("01-0902-0068389-00");
 var isValid = account?.IsValid() ?? false;
 ```
 
-A `TryParse()` method is also available:
+A `TryParse()` method is also available.
 
 ```csharp
 if (NZBankAccount.TryParse("01-0902-0068389-00", out NZBankAccount account))
@@ -91,7 +105,7 @@ Assert.AreEqual("01-0902-0068389-00", result);
 A static method of validation is available.
 
 ```csharp
-var isValid = NZBankAccount.IsValid(bank, branch, accountBase, suffix);
+var isValid = NZBankAccount.IsValid(1, 902, 68389, 0);
 ```
 
 ## Acknowledgements
@@ -99,6 +113,10 @@ var isValid = NZBankAccount.IsValid(bank, branch, accountBase, suffix);
 * https://github.com/wytlytningNZ/NZ-Bank-Account-Validator
 
 ## Release Notes
+#### 2.2.0
+2020-09-27
+* Added extension methods.
+
 #### 2.1.0
 2020-09-26
 * Added IRD Number validation.
