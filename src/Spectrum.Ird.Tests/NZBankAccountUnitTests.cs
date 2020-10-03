@@ -260,7 +260,7 @@ namespace Spectrum.Ird.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(FormatException))]
+        [ExpectedExceptionWithMessage(typeof(FormatException), "The account number is malformed.")]
         public void Parse_MalformedAccountNumber_ThrowsInvalidFormatException()
         {
             // act
@@ -268,7 +268,7 @@ namespace Spectrum.Ird.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(FormatException))]
+        [ExpectedExceptionWithMessage(typeof(FormatException), "The account number is null or empty.")]
         public void Parse_Null_ThrowsInvalidFormatException()
         {
             // act
@@ -276,7 +276,7 @@ namespace Spectrum.Ird.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(FormatException))]
+        [ExpectedExceptionWithMessage(typeof(FormatException), "The account number is null or empty.")]
         public void Parse_Empty_ThrowsInvalidFormatException()
         {
             // act

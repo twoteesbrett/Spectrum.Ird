@@ -69,13 +69,20 @@ var isValid = account.IsValid();
 
 ### Parsing
 
-An instance can also be created by parsing a `string` value in the format `XX-XXXX-XXXXXXX-XX(X)` where `X` is a digit and the suffix can be either 2 or 3 digits. Hyphens, spaces or periods can be used as separators. If the value cannot be parsed, `null` is returned.
+An instance can also be created by parsing a `string` value in the format `XX-XXXX-XXXXXXX-XX(X)` where `X` is a digit and the suffix can be either 2 or 3 digits. Hyphens, spaces or periods can be used as separators. If the value cannot be parsed, a `FormatException` is thrown.
 
 Parsing an account number does not validate it. Once an instance has been created, it can then be validated.
 
 ```csharp
-var account = NZBankAccount.Parse("01-0902-0068389-00");
-var isValid = account?.IsValid() ?? false;
+try
+{
+    var account = NZBankAccount.Parse("01-0902-0068389-00");
+    var isValid = account.IsValid();
+}
+catch (FormatException ex)
+{
+    // handle exception
+}
 ```
 
 A `TryParse()` method is also available.
@@ -113,6 +120,11 @@ var isValid = NZBankAccount.IsValid(1, 902, 68389, 0);
 * https://github.com/wytlytningNZ/NZ-Bank-Account-Validator
 
 ## Release Notes
+#### 2.2.1
+2020-09-30
+* Added exception XML documentation for the `Parse` method.
+* Added ExpectedExceptionWithMessage for unit testing.
+
 #### 2.2.0
 2020-09-27
 * Added extension methods.
