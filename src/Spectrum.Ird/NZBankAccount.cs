@@ -72,6 +72,8 @@ namespace Spectrum.Ird
         /// an accepted format.</param>
         /// <returns>A <see cref="NZBankAccount"/> equivalent of the specified
         /// account number.</returns>
+        /// <exception cref="FormatException">The account number is null or empty.</exception>
+        /// <exception cref="FormatException">The account number is malformed.</exception>
         /// <remarks>
         /// <para>This creates a new instance of the <see cref="NZBankAccount"/> class,
         /// but does not validate it.

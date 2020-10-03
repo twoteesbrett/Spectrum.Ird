@@ -5,13 +5,13 @@
     <Authors>twoteesbrett/Spectrum</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>bank-account ird ird-number new-zealand nz nz-bank-account validation validator</PackageTags>
-    <Description>A library to validate bank account numbers according to the "Resident Withholding Tax (RWT) and Non-Resident Withholding Tax (NRWT)" specification published by the New Zealand Inland Revenue Department (IRD).</Description>
+    <Description>A library to validate IRD numbers and bank account numbers according to the "Resident Withholding Tax (RWT) and Non-Resident Withholding Tax (NRWT)" specification published by the New Zealand Inland Revenue Department (IRD).</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageProjectUrl>https://github.com/twoteesbrett/Spectrum.Ird</PackageProjectUrl>
     <RepositoryUrl>https://github.com/twoteesbrett/Spectrum.Ird</RepositoryUrl>
     <Company>twoteesbrett/Spectrum</Company>
-    <Version>2.2.0</Version>
+    <Version>2.2.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
