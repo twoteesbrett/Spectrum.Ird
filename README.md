@@ -39,7 +39,7 @@ var isValid = "01-0902-0068389-00".IsValidNZBankAccount();
 
 ## IRD Number
 ### Validation
-Create an instance of the `IRDNumber` class with an IRD Number expressed as a `long` data type. Call the `IsValid()` method to validate it.
+Create an instance of the `IrdNumber` class with an IRD Number expressed as a `long` data type. Call the `IsValid()` method to validate it.
 
 ```csharp
 var irdNumber = new IrdNumber(49091850);
