@@ -7,7 +7,7 @@
 
 This is a library to validate IRD numbers and New Zealand bank account numbers according to the "Resident Withholding Tax (RWT) and Non-Resident Withholding Tax (NRWT)" specification published by the New Zealand Inland Revenue Department (IRD).
 
-The specification used in this implementation is [here](https://www.ird.govt.nz/-/media/project/ir/documents/income-tax/withholding-taxes/rwt-nrwt-withholding-tax-certificate/2020-rwt-and-nrwt-certificate-filing-specification.pdf).
+The specification used in this implementation is [here](https://www.classic.ird.govt.nz/resources/6/1/6198472a-ebee-4b71-bb16-3f7275e7f2bd/2019+RWT-NRWT+Specification+v1.0.pdf?Read%20the%20Non-resident%20withholding%20tax%20and%20resident%20withholding%20tax%20specification%20document).
 
 ## Installation
 This library is distributed with Nuget. The package can be installed by:
@@ -36,7 +36,6 @@ To validate a New Zealand bank account number:
 var isValid = "01-0902-0068389-00".IsValidNZBankAccount();
 ```
 
-
 ## IRD Number
 ### Validation
 Create an instance of the `IrdNumber` class with an IRD Number expressed as a `long` data type. Call the `IsValid()` method to validate it.
@@ -44,6 +43,20 @@ Create an instance of the `IrdNumber` class with an IRD Number expressed as a `l
 ```csharp
 var irdNumber = new IrdNumber(49091850);
 var result = irdNumber.IsValid();
+```
+
+### Friendly Display
+After an IRD number has been instantiated, the `ToString()` method can be called to get a friendly display of the IRD number, hyphen separated.
+
+```csharp
+// arrange
+var irdNumber = new IrdNumber(49091850);
+
+// act
+var result = irdNumber.ToString();
+
+// assert
+Assert.AreEqual("49-091-850", result);
 ```
 
 ### Static Validation
@@ -120,6 +133,10 @@ var isValid = NZBankAccount.IsValid(1, 902, 68389, 0);
 * https://github.com/wytlytningNZ/NZ-Bank-Account-Validator
 
 ## Release Notes
+#### 2.2.2
+2020-10-21
+* Override ToString() to output a human-friendly formatted IRD number.
+
 #### 2.2.1
 2020-10-04
 * Added exception XML documentation for the `Parse` method.

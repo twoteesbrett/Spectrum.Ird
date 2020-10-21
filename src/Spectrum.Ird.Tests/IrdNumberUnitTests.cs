@@ -35,6 +35,19 @@ namespace Spectrum.Ird.Tests
         }
 
         [TestMethod]
+        public void ToString_Example1ReturnsFormattedIrdNumber()
+        {
+            // arrange
+            var irdNumber = new IrdNumber(49091850);
+
+            // act
+            var result = irdNumber.ToString();
+
+            // assert
+            Assert.AreEqual("49-091-850", result);
+        }
+
+        [TestMethod]
         public void IsValid_Example2_ReturnsTrue()
         {
             // arrange
@@ -48,16 +61,42 @@ namespace Spectrum.Ird.Tests
         }
 
         [TestMethod]
-        public void IsValid_Example3_ReturnsTrue()
+        public void ToString_Example2ReturnsFormattedIrdNumber()
         {
             // arrange
             var irdNumber = new IrdNumber(35901981);
+
+            // act
+            var result = irdNumber.ToString();
+
+            // assert
+            Assert.AreEqual("35-901-981", result);
+        }
+
+        [TestMethod]
+        public void IsValid_Example3_ReturnsTrue()
+        {
+            // arrange
+            var irdNumber = new IrdNumber(49098576);
 
             // act
             var result = irdNumber.IsValid();
 
             // assert
             Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void ToString_Example3ReturnsFormattedIrdNumber()
+        {
+            // arrange
+            var irdNumber = new IrdNumber(49098576);
+
+            // act
+            var result = irdNumber.ToString();
+
+            // assert
+            Assert.AreEqual("49-098-576", result);
         }
 
         [TestMethod]
@@ -74,6 +113,19 @@ namespace Spectrum.Ird.Tests
         }
 
         [TestMethod]
+        public void ToString_Example4ReturnsFormattedIrdNumber()
+        {
+            // arrange
+            var irdNumber = new IrdNumber(136410132);
+
+            // act
+            var result = irdNumber.ToString();
+
+            // assert
+            Assert.AreEqual("136-410-132", result);
+        }
+
+        [TestMethod]
         public void IsValid_Example5_ReturnsFalse()
         {
             // arrange
@@ -84,6 +136,19 @@ namespace Spectrum.Ird.Tests
 
             // assert
             Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void ToString_Example5ReturnsFormattedIrdNumber()
+        {
+            // arrange
+            var irdNumber = new IrdNumber(136410133);
+
+            // act
+            var result = irdNumber.ToString();
+
+            // assert
+            Assert.AreEqual("136-410-133", result);
         }
 
         [TestMethod]
@@ -110,6 +175,17 @@ namespace Spectrum.Ird.Tests
 
             // assert
             Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ToString_Example6ReturnsFormattedIrdNumber()
+        {
+            // arrange
+            var irdNumber = new IrdNumber(9125568);
+
+            // act
+             irdNumber.ToString();
         }
 
         [TestMethod]
