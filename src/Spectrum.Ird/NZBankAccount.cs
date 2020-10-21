@@ -72,6 +72,8 @@ namespace Spectrum.Ird
         /// an accepted format.</param>
         /// <returns>A <see cref="NZBankAccount"/> equivalent of the specified
         /// account number.</returns>
+        /// <exception cref="FormatException">The account number is null or empty.</exception>
+        /// <exception cref="FormatException">The account number is malformed.</exception>
         /// <remarks>
         /// <para>This creates a new instance of the <see cref="NZBankAccount"/> class,
         /// but does not validate it.
@@ -87,12 +89,11 @@ namespace Spectrum.Ird
         /// </para>
         /// </remarks>
         public static NZBankAccount Parse(string accountNumber)
-            => Initialise(accountNumber, true);
-
+            => ParseThrowIf(accountNumber, true);
 
         /// <summary>
         /// Converts the string representation of an account number to its
-        /// <see cref="NZBankAccount"/> equivalent.  A return value indicates whether
+        /// <see cref="NZBankAccount"/> equivalent. A return value indicates whether
         /// the operation succeeded.
         /// </summary>
         /// <param name="accountNumber">The string containing an account number to convert, in
@@ -120,12 +121,12 @@ namespace Spectrum.Ird
         /// </remarks>
         public static bool TryParse(string accountNumber, out NZBankAccount account)
         {
-            account = Initialise(accountNumber, false);
+            account = ParseThrowIf(accountNumber, false);
 
             return account != null;
         }
 
-        private static NZBankAccount Initialise(string accountNumber, bool throwException)
+        private static NZBankAccount ParseThrowIf(string accountNumber, bool throwException)
         {
             if (string.IsNullOrEmpty(accountNumber))
             {
