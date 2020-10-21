@@ -3,11 +3,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![NuGet Badge](https://buildstats.info/nuget/Spectrum.Ird)](https://www.nuget.org/packages/Spectrum.Ird)
 
-# New Zealand IRD Number and Bank Account Validation
+# New Zealand IRD Number and Bank Account Number Validation
 
-A library to validate IRD numbers and bank account numbers according to the "Resident Withholding Tax (RWT) and Non-Resident Withholding Tax (NRWT)" specification published by the New Zealand Inland Revenue Department (IRD).
+This is a library to validate IRD numbers and New Zealand bank account numbers according to the "Resident Withholding Tax (RWT) and Non-Resident Withholding Tax (NRWT)" specification published by the New Zealand Inland Revenue Department (IRD).
 
-The specification used in this implementation is [here](https://www.ird.govt.nz/-/media/project/ir/documents/income-tax/withholding-taxes/rwt-nrwt-withholding-tax-certificate/2020-rwt-and-nrwt-certificate-filing-specification.pdf).
+The specification used in this implementation is [here](https://www.classic.ird.govt.nz/resources/6/1/6198472a-ebee-4b71-bb16-3f7275e7f2bd/2019+RWT-NRWT+Specification+v1.0.pdf?Read%20the%20Non-resident%20withholding%20tax%20and%20resident%20withholding%20tax%20specification%20document).
 
 ## Installation
 This library is distributed with Nuget. The package can be installed by:
@@ -23,13 +23,40 @@ Import the namespace.
 using Spectrum.Ird;
 ```
 
+## Quick Start
+To validate an IRD number:
+
+```csharp
+var isValid = 49091850.IsValidIrdNumber();
+```
+
+To validate a New Zealand bank account number:
+
+```csharp
+var isValid = "01-0902-0068389-00".IsValidNZBankAccount();
+```
+
 ## IRD Number
 ### Validation
-Create an instance of the `IRDNumber` with an IRD Number expressed as a `long` data type. Call the `IsValid()` method to validate it.
+Create an instance of the `IrdNumber` class with an IRD Number expressed as a `long` data type. Call the `IsValid()` method to validate it.
 
 ```csharp
 var irdNumber = new IrdNumber(49091850);
 var result = irdNumber.IsValid();
+```
+
+### Friendly Display
+After an IRD number has been instantiated, the `ToString()` method can be called to get a friendly display of the IRD number, hyphen separated.
+
+```csharp
+// arrange
+var irdNumber = new IrdNumber(49091850);
+
+// act
+var result = irdNumber.ToString();
+
+// assert
+Assert.AreEqual("49-091-850", result);
 ```
 
 ### Static Validation
@@ -55,16 +82,23 @@ var isValid = account.IsValid();
 
 ### Parsing
 
-An instance can also be created by parsing a `string` value in the format `XX-XXXX-XXXXXXX-XX(X)` where `X` is a digit and the suffix can be either 2 or 3 digits. Hyphens, spaces or periods can be used as separators. If the value cannot be parsed, `null` is returned.
+An instance can also be created by parsing a `string` value in the format `XX-XXXX-XXXXXXX-XX(X)` where `X` is a digit and the suffix can be either 2 or 3 digits. Hyphens, spaces or periods can be used as separators. If the value cannot be parsed, a `FormatException` is thrown.
 
 Parsing an account number does not validate it. Once an instance has been created, it can then be validated.
 
 ```csharp
-var account = NZBankAccount.Parse("01-0902-0068389-00");
-var isValid = account?.IsValid() ?? false;
+try
+{
+    var account = NZBankAccount.Parse("01-0902-0068389-00");
+    var isValid = account.IsValid();
+}
+catch (FormatException ex)
+{
+    // handle exception
+}
 ```
 
-A `TryParse()` method is also available:
+A `TryParse()` method is also available.
 
 ```csharp
 if (NZBankAccount.TryParse("01-0902-0068389-00", out NZBankAccount account))
@@ -91,14 +125,28 @@ Assert.AreEqual("01-0902-0068389-00", result);
 A static method of validation is available.
 
 ```csharp
-var isValid = NZBankAccount.IsValid(bank, branch, accountBase, suffix);
+var isValid = NZBankAccount.IsValid(1, 902, 68389, 0);
 ```
 
 ## Acknowledgements
 * https://github.com/msdkool/IrdValidator
-* https://github.com/wytlytningNZ/NZ-Bank-Account-Validator#readme
+* https://github.com/wytlytningNZ/NZ-Bank-Account-Validator
 
 ## Release Notes
+#### 2.2.2
+2020-10-21
+* Override ToString() to output a human-friendly formatted IRD number.
+
+#### 2.2.1
+2020-10-04
+* Added exception XML documentation for the `Parse` method.
+* Added ExpectedExceptionWithMessage for unit testing.
+
+#### 2.2.0
+2020-09-27
+* Aligned how the `Parse` method works with typical Microsoft parsing methods such as `Int32.Parse(string)`. An exception will now be thrown if the value cannot be parsed instead of returning `null`.
+* Added extension methods.
+
 #### 2.1.0
 2020-09-26
 * Added IRD Number validation.

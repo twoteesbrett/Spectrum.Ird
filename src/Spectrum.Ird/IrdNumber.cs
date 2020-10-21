@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Spectrum.Ird
@@ -22,8 +21,8 @@ namespace Spectrum.Ird
     /// </remarks>
     public class IrdNumber
     {
-        private const long LowerLimit = 10000000;
-        private const long UpperLimit = 150000000;
+        private const long LowerLimit = 10_000_000;
+        private const long UpperLimit = 150_000_000;
 
         private static readonly int[] PrimaryWeightings = new int[] { 3, 2, 7, 6, 5, 4, 3, 2 };
         private static readonly int[] SecondaryWeightings = new int[] { 7, 4, 3, 2, 5, 2, 7, 6 };
@@ -95,6 +94,34 @@ namespace Spectrum.Ird
         /// </example>
         public static bool IsValid(long irdNumber)
             => new IrdNumber(irdNumber).IsValid();
+
+        /// <summary>
+        /// Returns a string of the IRD number in a format typically
+        /// used in practice.
+        /// </summary>
+        /// <returns>The formatted IRD number.</returns>
+        /// <exception cref="ArgumentException">The IRD number is an invalid length.</exception>
+        /// <remarks>
+        /// IRD numbers with a length of 8 digits are formatted as XX-XXX-XXX.
+        /// IRD numbers with a length of 9 digits are formatted as XXX-XXX-XXX.
+        /// For example: 
+        /// <list type="bullet">
+        /// <item> 49091850 will be formatted as "49-091-850"</item>
+        /// <item> 136410132 will be formatted as "136-410-132"</item>
+        /// </list>
+        /// A number that is not 8 or 9 digits in length will throw an
+        /// <see cref="ArgumentException"/>.
+        /// </remarks>
+        public override string ToString()
+        {
+            switch (Value.ToString().Length)
+            {
+                case 8: return $"{Value:00-000-000}";
+                case 9: return $"{Value:000-000-000}";
+                default:
+                    throw new ArgumentException("The IRD number is an invalid length.");
+            }
+        }
 
         private int GetCheckDigit(int[] baseNumber, int[] weightings)
         {
