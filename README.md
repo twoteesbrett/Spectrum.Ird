@@ -133,6 +133,11 @@ var isValid = NZBankAccount.IsValid(1, 902, 68389, 0);
 * https://github.com/wytlytningNZ/NZ-Bank-Account-Validator
 
 ## Release Notes
+#### 2.2.3
+2026-02-05
+* Updated link to specification used for implementation.
+* Increased the upper limit of an IRD number from 150_000_000 to 200_000_000 in accordance with the latest specification.
+
 #### 2.2.2
 2020-10-21
 * Override ToString() to output a human-friendly formatted IRD number.
